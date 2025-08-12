@@ -322,10 +322,6 @@ export class Config {
     this.folderTrust = params.folderTrust ?? false;
     this.ideMode = params.ideMode ?? false;
     this.ideClient = IdeClient.getInstance();
-    if (this.ideMode && this.ideModeFeature) {
-      this.ideClient.connect();
-      logIdeConnection(this, new IdeConnectionEvent(IdeConnectionType.START));
-    }
     this.loadMemoryFromIncludeDirectories =
       params.loadMemoryFromIncludeDirectories ?? false;
     this.chatCompression = params.chatCompression;
@@ -684,7 +680,7 @@ export class Config {
       await this.ideClient.connect();
       logIdeConnection(this, new IdeConnectionEvent(IdeConnectionType.SESSION));
     } else {
-      this.ideClient.disconnect();
+      await this.ideClient.disconnect();
     }
   }
 
